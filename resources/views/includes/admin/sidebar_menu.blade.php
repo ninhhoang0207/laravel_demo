@@ -30,12 +30,15 @@
 							<li><a href="#">General Setting</a></li>
 						</ul>
 					</li>
+					@hasanyrole('admin')
 					<li><a><i class="fa fa-users"></i>User <span class="fa fa-chevron-down"></span></a>
 						<ul class="nav child_menu">
-							<li><a href="{{ route('admin.user.index') }}">Manager</a></li>
+							<li><a href="{{ route('admin.user.index') }}">Management</a></li>
+							<li><a href="{{ route('admin.role.index') }}">Role</a></li>
 							<li><a href="{{ route('admin.user.create') }}">New</a></li>
 						</ul>
 					</li>
+					@endhasanyrole
 				</ul>
 			</div>
 			<!-- /sidebar menu -->

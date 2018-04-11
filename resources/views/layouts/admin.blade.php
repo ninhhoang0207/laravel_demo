@@ -64,6 +64,10 @@
 				</div>
 			</div>
 		</div>
+		<form action="" method="POST" id="form-delete" name="delete_item" style="display:none">
+			{{ method_field('DELETE') }} 
+			{{ csrf_field() }}
+		</form>
 	</div>
 </body>
 

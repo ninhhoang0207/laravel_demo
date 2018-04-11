@@ -60,7 +60,7 @@
 								<div class="form-group">
 									<label class="control-label">Role<span class="required">*</span>
 									</label>
-									<select name="role" class="select2 form-control" id="role">
+									<select name="roles[]" class="select2 form-control" id="role" multiple>
 									@foreach ($roles as $role)
 									<option value="{{ $role->id }}">{{ $role->name }}</option>
 									@endforeach

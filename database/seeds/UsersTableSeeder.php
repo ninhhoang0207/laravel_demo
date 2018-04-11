@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\User;
 use Carbon\Carbon;
 
 class UsersTableSeeder extends Seeder
@@ -12,23 +15,52 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $role_admin = DB::table('roles')->where('slug', 'admin')->first();
+        Permission::create(['name' => 'manage user']);
+        Permission::create(['name' => 'view backend']);
 
-        if (isset($role_admin)) {
-            $admin_id = DB::table('users')->insertGetId([
-                'name'      =>  'Admin',
-                'email'     =>  'admin@admin.com',
-                'password'  =>  bcrypt('12345'),
-                'is_active' =>  1,
-                'role'      =>  $role_admin->id,
-                'created_at'=>  Carbon::now(),
-                'updated_at'=>  Carbon::now(),
-            ]);
+        // create roles and assign created permissions
 
-            DB::table('role_user')->insert([
-                'user_id'   =>  $admin_id,
-                'role_id'   =>  $role_admin->id,
-            ]);
-        }
+        $role = Role::create(['name' => 'admin']);
+        $role->givePermissionTo(Permission::all());
+
+        $role = Role::create(['name' => 'curator']);
+        $role->givePermissionTo(['view backend']);
+
+        $role = Role::create(['name' => 'geneticist']);
+        $role->givePermissionTo(['view backend']);
+
+        $role = Role::create(['name' => 'customer']);
+
+        $admin = User::create([
+            'name'      =>  'Admin',
+            'email'     =>  'admin@admin.com',
+            'password'  =>  bcrypt('12345'),
+            'is_active' =>  1,
+        ]);
+        $admin->assignRole('admin');
+
+        $curator = User::create([
+            'name'      =>  'Curator',
+            'email'     =>  'curator@curator.com',
+            'password'  =>  bcrypt('12345'),
+            'is_active' =>  1,
+        ]);
+        $curator->assignRole('curator');
+
+        $geneticist = User::create([
+            'name'      =>  'Geneticist',
+            'email'     =>  'geneticist@geneticist.com',
+            'password'  =>  bcrypt('12345'),
+            'is_active' =>  1,
+        ]);
+        $geneticist->assignRole('geneticist');
+
+        $customer = User::create([
+            'name'      =>  'Customer',
+            'email'     =>  'customer@customer.com',
+            'password'  =>  bcrypt('12345'),
+            'is_active' =>  1,
+        ]);
+        $customer->assignRole('customer');
     }
 }

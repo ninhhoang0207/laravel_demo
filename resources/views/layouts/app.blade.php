@@ -55,6 +55,11 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    @can('view backend')
+                                    <li>
+                                        <a href="{{ route('admin.index') }}">Admintrastor</a>
+                                    </li>
+                                    @endcan
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

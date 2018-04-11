@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Role;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
 use Validator, Redirect, Session, DB;
 
@@ -49,7 +50,7 @@ class UserController extends Controller
             'email'         =>  'required|unique:users|max:255',
             'name'          =>  'required',
             'password'      =>  'required|confirmed',
-            'role'          =>  'required',
+            'roles'         =>  'required',
         ]);
 
         if ($validator->fails()) {
@@ -62,7 +63,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = bcrypt($request->password);
-            $user->role = $request->role;
+            // $user->role = $request->role;
             $user->phone = $request->phone;
             $user->address = $request->address;
             $user->birthday = Carbon::parse($this->formatDate($request->birthday));
@@ -71,7 +72,7 @@ class UserController extends Controller
                 $user->avatar = $this->moveFile('user/avatar' ,$request->avatar);
             }
             $user->save();
-            DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => $user->role]);
+            $user->syncRoles($request->roles);
             DB::commit();   
         } catch (Exception $e) {
             
@@ -122,7 +123,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name'          =>  'required',
             'password'      =>  'confirmed',
-            'role'          =>  'required',
+            'roles'         =>  'required',
         ]);
 
         if ($validator->fails()) {
@@ -134,7 +135,7 @@ class UserController extends Controller
             $user = User::where('id', $id)->firstOrFail();
             $user->name = $request->name;
             $user->password = $request->password?bcrypt($request->password):$user->password;
-            $user->role = $request->role;
+            // $user->role = $request->role;
             $user->is_active = 1;
             $user->phone = $request->phone;
             $user->address = $request->address;
@@ -143,8 +144,7 @@ class UserController extends Controller
                 $user->avatar = $this->moveFile('user/avatar', $request->avatar);
             }
             $user->save();
-            DB::table('role_user')->where('user_id', $id)->update(['role_id' => $request->role]);
-
+            $user->syncRoles($request->roles);
             DB::commit();
         } catch (Exception $e) {
             

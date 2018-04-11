@@ -42,7 +42,21 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
+        // $this->middleware('guest');
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        if (auth()->user()->hasRole('admin'))
+            return view('auth.register');
+        else
+            return redirect()->route('home');
     }
 
     /**
@@ -68,27 +82,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $role_member;
-
-        if (isset($data['role'])) {
-            $role_member = $data['role'];
-        } else {
-            $role_member = DB::table('roles')->where('slug', 'member')->first();
-            if (count($role_member) > 0) 
-                $role_member = $role_member->id;
-            else {
-                Session::flash('error', trans('role_not_found'));
-
-                return Redirect::back()->withInput();
-            }
-        }
-
         $user = User::create([
             'name'      =>  $data['name'],
             'email'     =>  $data['email'],
             'password'  =>  bcrypt($data['password']),
             'is_active' =>  0,
-            'role'      =>  $role_member,
             'address'   =>  $data['address'],
             'phone'     =>  $data['phone'],
             'active_code'=>  str_random(64),

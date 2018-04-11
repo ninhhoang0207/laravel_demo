@@ -14,6 +14,7 @@
 				<!-- X-title -->
 				<div class="x_title">
 					<h2>Manager</h2>
+					<a href="{{ route('admin.user.create') }}" class="btn btn-primary pull-right">Create</a>
 					<div class="clearfix"></div>
 				</div>
 				<!-- X-title -->
@@ -36,7 +37,7 @@
 								<td>{{ $key+1 }}</td>
 								<td>{{ $user->name }}</td>
 								<td>{{ $user->email }}</td>
-								<td>{{ $user->roleName() }}</td>
+								<td>{{ count($user->getRoleNames()) ? $user->getRoleNames() : 'N/A' }}</td>
 								<td>{{ $user->created_at->format('d/m/Y') }}</td>
 								<td>
 									<a class="btn btn-warning btn-xs" href="{{ route('admin.user.edit', ['id'=>$user->id]) }}">Edit</a>
