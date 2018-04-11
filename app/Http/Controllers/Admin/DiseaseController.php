@@ -38,7 +38,19 @@ class DiseaseController extends Controller
 
     public function addDiseaseGene(Request $request) {
         $disease_id = $request->disease_id;
-        $gene_id = $request->gene_id;
+        $gene_id = null;
+
+        if ($request->gene_name) {
+            $gene = Gene::where('name', $request->gene_name)->first();
+            if (count($gene)) {
+                $gene_id = $gene->id;
+            }
+        }
+
+        if (!$gene_id) {
+            return 0;
+        }
+        // $gene_id = $request->gene_id;
 
         $db = DB::table('diseases_genes')->insert(['disease_id' => $disease_id, 'gene_id' => $gene_id]);
         if ($db){

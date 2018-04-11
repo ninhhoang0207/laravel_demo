@@ -2,6 +2,7 @@
 
 @section('header')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style type="text/css">
 	td.details-control {
 		background: url('/images/details_open.png') no-repeat center center;
@@ -58,12 +59,17 @@
 
 @section('scripts')
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	function deleteItem(index) {
 		var url = $(index).attr('href');
 		$('#modal-delete').modal('show');
 		$('#form-delete').attr('action', url);
 	}
+
+	$('#modal-delete').on('shown', function() {
+		$('#genes').val('');
+    })
 
 	$('#link-delete').on('click', function(e) {
 		e.preventDefault();
@@ -82,10 +88,10 @@
 	}
 
 	function addDiseaseGene(disease_id){
-		var gene_id = $('#genes').val();
+		var gene_name = $('#genes').val();
 		$.ajax({
 			url : "{{ route('admin.disease.addDiseaseGene') }}",
-			data: {gene_id:gene_id, disease_id:disease_id},
+			data: {gene_name:gene_name, disease_id:disease_id},
 			type: 'GET'
 		}).done(function (response){
 			if (response==0) {

@@ -43,11 +43,15 @@
 			<!-- Modal body -->
 			<div class="modal-body">
 				<form>
-					<select id = "genes" name="genes" class="form-control">
-						@foreach ($genes as $gene)
-						<option value="{{ $gene->id }}">{{$gene->name}}</option>
-						@endforeach
-					</select>
+					<div class="form-group">
+						<!-- <select id = "genes" name="genes" class="form-control select2">
+							@foreach ($genes as $gene)
+							<option value="{{ $gene->id }}">{{$gene->name_full}}</option>
+							@endforeach
+						</select> -->
+						<input name="genes" id="genes" class="form-control">
+						<div id="gene-search-result"></div>
+					</div>
 				</form>
 			</div>
 
@@ -111,19 +115,20 @@
 		    '</table>';
 	}
 
-	// $('#genes').select2({
-	// 	ajax: {
-	// 		url: '{{route("admin.gene.searchGene")}}',
-	// 		data: function (params) {
-	// 			var query = {
-	// 				search: params.term,
-	// 				type: 'public'
-	// 			}
-	// 		    // Query parameters will be ?search=[term]&type=public
-	// 		    return query;
-	// 		}
-	// 		dataType: 'json'
-	// 	    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-	// 	}
-	// });
+	$( "#genes" ).autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "{{ route('admin.gene.searchGene') }}",
+				dataType: "json",
+				data: {
+					q: request.term
+				},
+				success: function( data ) {
+					response(data);
+				}
+			});
+		},
+		delay: 500,
+		appendTo: "#gene-search-result"
+	});
 </script>

@@ -85,9 +85,10 @@ class GeneController extends Controller
         //
     }
 
-    public function searchGenen(Request $request) 
+    public function searchGene(Request $request) 
     {
-        $genes = Gene::where('name', 'like', $request->keyword)->get()->toJson();
+        $genes = Gene::where('name', 'like', '%'.$request->q.'%')->pluck('name')->toJson();
+        // $genes = Gene::paginate(25)->pluck('name')->toJson();
 
         return $genes;
     }
