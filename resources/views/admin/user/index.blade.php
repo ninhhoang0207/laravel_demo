@@ -57,3 +57,9 @@
 	</div>
 </div>
 @endsection
+
+@section('scripts')
+<script type="text/javascript">
+	var table = $('.table').DataTable();
+</script>
+@endsection

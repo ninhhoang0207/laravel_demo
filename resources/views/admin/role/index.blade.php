@@ -62,16 +62,17 @@
 
 @section('scripts')
 <script type="text/javascript">
-	function deleteItem(index) {
-		var url = $(index).attr('href');
-		$('#modal-delete').modal('show');
-		$('#form-delete').attr('action', url);
-	}
+	var table = $('.table').DataTable();
+	// function deleteItem(index) {
+	// 	var url = $(index).attr('href');
+	// 	$('#modal-delete').modal('show');
+	// 	$('#form-delete').attr('action', url);
+	// }
 
-	$('#link-delete').on('click', function(e) {
-		e.preventDefault();
-		$('#form-delete').submit();
-		$('#modal-delete').modal('hide');
-	});
+	// $('#link-delete').on('click', function(e) {
+	// 	e.preventDefault();
+	// 	$('#form-delete').submit();
+	// 	$('#modal-delete').modal('hide');
+	// });
 </script>
 @endsection

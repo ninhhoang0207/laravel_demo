@@ -30,6 +30,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 		Route::resource('user', 'UserController');
 		Route::resource('role', 'RoleController');
 	});
+	Route::get('disease/get-data', 'DiseaseController@getData')->name('disease.getData');
+	Route::get('disease/add-disease-gene', 'DiseaseController@addDiseaseGene')->name('disease.addDiseaseGene');
+	Route::get('disease/detail/{disease}', 'DiseaseController@detail')->name('disease.detail');
+	Route::resource('disease', 'DiseaseController');
+	Route::get('gene/search-gene', 'GeneController@searchGene')->name('gene.searchGene');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

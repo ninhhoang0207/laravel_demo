@@ -3,7 +3,6 @@ $('.tags').tagsInput({
 	width: 'auto',
 	placeholderColor : '#123123',
 });
-$('.table').DataTable();
 
 //Delay time
 var delay = (function(){
@@ -24,12 +23,6 @@ function readURL(input, id) {
 		}
 		reader.readAsDataURL(input.files[0]);
 	}
-}
-
-//Model delete
-function removeItem(url) {
-	$('#modal-delete a').attr('href',url);
-	$('#modal-delete').modal('show');
 }
 
 // tinyMCE Editor
