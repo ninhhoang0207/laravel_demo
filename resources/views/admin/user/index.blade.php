@@ -41,7 +41,9 @@
 								<td>{{ $user->created_at->format('d/m/Y') }}</td>
 								<td>
 									<a class="btn btn-warning btn-xs" href="{{ route('admin.user.edit', ['id'=>$user->id]) }}">Edit</a>
-									<a class="btn btn-danger btn-xs" href="{{ route('admin.user.destroy', ['id'=>$user->id]) }}" onclick="removeItem(this); return false;">Remove</a>
+									@if ($user->id != auth()->user()->id)
+									<a class="btn btn-danger btn-xs" href="{{ route('admin.user.destroy', ['id'=>$user->id]) }}" onclick="deleteItem(this); return false;">Remove</a>
+									@endif
 								</td>
 							</tr>
 							@endforeach

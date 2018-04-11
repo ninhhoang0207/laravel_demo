@@ -1,8 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-<form class="form-horizontal form-label-left" method="POST" enctype="multipart/form-data">
+<form class="form-horizontal form-label-left" action="{{ route('admin.user.update', $user) }}" method="POST" enctype="multipart/form-data">
 	{{ csrf_field() }}
+	{{ method_field('PATCH') }}
 	<div class="">
 		<div class="page-title">
 			<div class="title_left">

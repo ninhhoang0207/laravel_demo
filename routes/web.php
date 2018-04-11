@@ -27,14 +27,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 	Route::get('dashboard', 'SystemController@index')->name('index');
 	Route::get('', 'SystemController@index')->name('index');
 	Route::group(['middleware' => ['role:admin']], function() {
-		Route::group(['prefix' => 'user', 'as' => 'user.'], function() {
-			Route::get('', 'UserController@index')->name('index');
-			Route::get('create', 'UserController@create')->name('create');
-			Route::post('create', 'UserController@store');
-			Route::get('edit/{id}', 'UserController@edit')->name('edit');
-			Route::post('edit/{id}', 'UserController@update');
-			Route::get('remove/{id}', 'UserController@destroy')->name('destroy');
-		});
+		Route::resource('user', 'UserController');
 		Route::resource('role', 'RoleController');
 	});
 });

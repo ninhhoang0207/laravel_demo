@@ -124,11 +124,17 @@
 		format : 'dd/mm/yyyy'
 	});
 
-	function removeItem(index) {
+	function deleteItem(index) {
 		var url = $(index).attr('href');
 		$('#modal-delete').modal('show');
-		$('#link-delete').attr('href', url);
+		$('#form-delete').attr('action', url);
 	}
+
+	$('#link-delete').on('click', function(e) {
+		e.preventDefault();
+		$('#form-delete').submit();
+		$('#modal-delete').modal('hide');
+	});
 </script>
 @yield('scripts')
 </html>

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<form class="form-horizontal form-label-left" method="POST" enctype="multipart/form-data">
+<form class="form-horizontal form-label-left" action="{{ route('admin.user.store') }}" method="POST" enctype="multipart/form-data">
 	{{ csrf_field() }}
 	<div class="">
 		<div class="page-title">

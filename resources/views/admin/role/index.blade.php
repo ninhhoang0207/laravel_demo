@@ -46,8 +46,6 @@
 									<a class="btn btn-danger btn-xs" href="{{ route('admin.role.destroy', $role) }}" onclick="deleteItem(this); return false;">
 										Remove
 									</a>
-									<!-- <a data-method="delete" data-trans-button-cancel="Cancel" data-trans-button-confirm="Delete" data-trans-title="Are you sure you want to do this?" class="btn btn-danger" style="cursor:pointer;" onclick="$(this).find('form').submit();"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i>
-									</a> -->
 								</td>
 							</tr>
 							@endforeach

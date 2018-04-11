@@ -63,7 +63,6 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = bcrypt($request->password);
-            // $user->role = $request->role;
             $user->phone = $request->phone;
             $user->address = $request->address;
             $user->birthday = Carbon::parse($this->formatDate($request->birthday));
@@ -72,7 +71,7 @@ class UserController extends Controller
                 $user->avatar = $this->moveFile('user/avatar' ,$request->avatar);
             }
             $user->save();
-            $user->syncRoles($request->roles);
+            $user->assignRole($request->roles);
             DB::commit();   
         } catch (Exception $e) {
             
@@ -166,7 +165,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::where('id', $id)->delete();
-        DB::table('role_user')->where('user_id', $id)->delete();
+        // DB::table('role_user')->where('user_id', $id)->delete();
 
         Session::flash('success', 'Remove item success');
 
